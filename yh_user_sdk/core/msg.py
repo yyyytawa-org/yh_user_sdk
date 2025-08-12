@@ -1,0 +1,114 @@
+import httpx
+from ..proto import msg_pb2
+from google.protobuf import json_format
+import logging
+import uuid
+import json
+from .. import config
+
+def request_api(url, headers = None , data = None, json = False): # 后面这个json是表明返回是不是json内容
+    if isinstance(data,bytes): # 判断是不是二进制数据
+        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,data = data)
+    else:
+        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,json = data)
+    response.raise_for_status()
+    if not json:
+        return response.content
+    else:
+        return response.json()
+
+class msg:
+    def __init__(self, token):
+        self.token = token
+
+    def list_msg(self,
+       chat_id: str,
+       chat_type,
+       msg_count = 1,
+       msg_id = ""):
+       headers = {"token": self.token}
+       if chat_type in config.chat_type_mapping:
+           chat_type = config.chat_type_mapping[chat_type]
+       request = msg_pb2.list_message_send()
+       request.chat_id = chat_id
+       request.chat_type = int(chat_type)
+       request.msg_count = int(msg_count)
+       request.msg_id = msg_id
+       payload = request.SerializeToString()
+       response = request_api("list-message", headers, data = payload)
+       msg = msg_pb2.list_message()
+       msg.ParseFromString(response)
+       msg = json_format.MessageToDict(msg)
+       return msg
+    
+    def list_msg_by_seq(self, chat_id: str, chat_type, msg_start = 0):
+        if chat_type in config.chat_type_mapping:
+           chat_type = config.chat_type_mapping[chat_type]
+        headers = {"token": self.token}
+        request = msg_pb2.list_message_by_seq_send()
+        request.chat_id = chat_id
+        request.chat_type = int(chat_type)
+        request.msg_start = msg_start
+        payload = request.SerializeToString()
+        response = request_api("list-message-by-seq", headers ,data = payload)
+        msg = msg_pb2.list_message_by_seq()
+        msg.ParseFromString(response)
+        msg = json_format.MessageToDict(msg)
+        return msg
+    
+    def list_msg_by_mid_seq(self, chat_id: str, chat_type, msg_id = "", msg_count = 1):
+        if chat_type in config.chat_type_mapping:
+           chat_type = config.chat_type_mapping[chat_type]
+        headers = {"token": self.token}
+        request = msg_pb2.list_message_by_mid_seq_send()
+        request.chat_id = chat_id
+        request.chat_type = int(chat_type)
+        request.msg_id = msg_id
+        request.msg_count = msg_count
+        payload = request.SerializeToString()
+        response = request_api("list-message-by-mid-seq", headers, data = payload)
+        msg = msg_pb2.list_message_by_mid_seq()
+        msg.ParseFromString(response)
+        msg = json_format.MessageToDict(msg)
+        return msg
+    
+    def send_msg(self,
+                  chat_id: str,
+                  chat_type,
+                  msg_type = 1, # ~~别问为啥不是content_type~~
+                  msg_id = None,
+                  data = {}):
+        if chat_type in config.chat_type_mapping:
+           chat_type = config.chat_type_mapping[chat_type]
+        if msg_type in config.content_type_mapping:
+           msg_type = config.content_type_mapping[msg_type]
+        headers = {"token": self.token}
+        request = msg_pb2.send_message_send()
+        if isinstance(data.get("content",{}).get("buttons"), list): # 论云湖把list当str发
+            data["content"]["buttons"] = json.dumps(data["content"]["buttons"])
+        if isinstance(data.get("content",{}).get("expression_id"), int):
+            data["content"]["expression_id"] = str(data["content"]["expression_id"])
+        msg = {
+            "msg_id": uuid.uuid4().hex if not msg_id else msg_id,
+            "chat_id": chat_id,
+            "chat_type": int(chat_type),
+            "content_type": int(msg_type)
+        }
+        msg.update(data)
+        json_format.ParseDict(msg, request, ignore_unknown_fields=False)
+        payload = request.SerializeToString()
+        response = request_api("send-message", headers , data = payload)
+        status = msg_pb2.send_message()
+        status.ParseFromString(response)
+        status = json_format.MessageToDict(status)
+        return status
+    
+    def list_msg_edit_record(self, msg_id: str, size = 10, page = 1):
+        headers = {"token": self.token}
+        payload = {
+            "msgId": msg_id,
+            "size": size,
+            "page": page
+        }
+        response = request_api("list-message-edit-record", headers, data = payload, json = True)
+        return response

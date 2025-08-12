@@ -16,7 +16,7 @@ def request_api(url, headers = None , data = None, json = False): # 后面这个
         return response.json()
 
 class user:
-    def __init__(self, token):
+    def __init__(self, token = None):
         self.token = token
     
     def info(self):
