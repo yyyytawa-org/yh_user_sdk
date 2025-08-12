@@ -141,3 +141,22 @@ class msg:
         response = request_api("recall-msg-batch", headers, data = payload)
         status = status_only(response)
         return status
+    
+    def edit_msg(self, chat_id: str, chat_type, msg_id: str, msg_type = 1, data = {}):
+        chat_type = mapping_chat_type(chat_type)
+        if msg_type in config.content_type_mapping:
+           msg_type = config.content_type_mapping[msg_type]
+        headers = {"token": self.token}
+        request = msg_pb2.edit_message_send()
+        payload_dict = {
+            "msg_id": msg_id,
+            "chat_id": chat_id,
+            "chat_type": int(chat_type),
+            "content_type": int(msg_type)
+        }
+        payload_dict.update(data)
+        json_format.ParseDict(payload_dict, request, ignore_unknown_fields=False)
+        payload = request.SerializeToString()
+        response = request_api("edit-message", headers, data = payload)
+        status = status_only(response)
+        return status
