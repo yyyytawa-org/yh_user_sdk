@@ -2,7 +2,7 @@
 from .core import user # 自动获得所有延迟加载模块
 
 class set_token:
-    def __init__(self, token):
+    def __init__(self, token = None):
         self.token = token
     
     @property
