@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package yh_group;
+
+// 响应状态
+message Status {
+    int64 number = 1;
+    int32 code = 2;
+    string msg = 3;
+}
+
+// 群聊信息
+message info_send {
+    string group_id = 2;
+}
+
+message info {
+    Status status = 1;
+    Group_data data = 2;
+    repeated Bot_data history_bot = 3;
+
+    // 群聊数据
+    message Group_data {
+        string group_id = 1;
+        string name = 2;
+        string avatar_url = 3;
+        int64 avatar_id = 4; // 头像ID
+        string introduction = 5;
+        int64 member = 6; // 群人数
+        string create_by = 7;
+        int32 direct_join = 8; // 进群免审核
+        int32 permisson_level = 9; // 权限等级
+        int32 history_msg = 10; // 历史消息
+        string category_name = 11; // 分类名
+        int64 category_id = 12; // 分类ID
+        int32 private = 13; // 是否为私有群聊
+        int32 do_not_disturb = 14; // 免打扰
+        int64 community_id = 15;
+        string community_name = 16;
+        int32 top = 19; // 会话置顶
+        repeated string admin = 20;
+        string limited_msg_type = 22; // 被限制的消息类型,例如 1,2,3
+        string owner = 23;
+        int32 recommandation = 24; // 是否加入群推荐
+        repeated string tag_old = 26; // 标签(旧版)
+        repeated Tag tag = 27;
+
+        // 已使用标签信息,2没啥用不解析了
+        message Tag {
+            int64 id = 1; // 标签ID(貌似)
+            string text = 3;
+            string color = 4;
+        }
+    }
+    
+    // 群聊中使用过的机器人数据
+    message Bot_data {
+        string bot_id = 1;
+        string name = 2;
+        int64 name_id = 3; // 第N个名称(用户+群聊+机器人)
+        string avatar_url = 4;
+        int64 avatar_id = 5;
+        string introduction = 6;
+        string create_by = 7;
+        int64 create_time = 8;
+        int64 user_number = 9; // 使用人数
+        int32 private = 10; // 是否为私有机器人
+    }
+
+}
+
+// 获取群成员
+
+message list_member_send {
+    Data data = 2;
+    
+    message Data {
+        int32 size = 1; // 分页大小
+        int32 page = 2; // 页数
+    }
+    
+    string group_id = 3;
+}
+
+message list_member {
+    Status status = 1;
+    repeated User user = 2;
+    
+    message User {
+        string group_id = 1;
+        User_info user_info = 2;
+        
+        message User_info {
+            string user_id = 1;
+            string name = 2;
+            string avatar_url = 4;
+        }
+        
+        int32 permission_level = 3;
+        int64 gag_time = 4; // 禁言时间
+        int32 is_gag = 5; // 是否被禁言
+    }
+}
+
+// 编辑群聊信息
+message edit_group_send {
+    string group_id = 2; // 目标群聊ID
+    string name = 3; // 群聊名称
+    string introduction = 4; // 群聊简介
+    string avatar_url = 5; // 群聊头像url
+    int32 direct_join = 6; // 进群免审核,1为开启
+    int32 history_msg = 7; // 历史消息,1为开启
+    string category_name = 8; // 分类名
+    int64 category_id = 9; // 分类ID
+    int32 private = 10; // 是否私有,1为私有
+}
+
+message edit_group {
+    Status status = 1;
+}

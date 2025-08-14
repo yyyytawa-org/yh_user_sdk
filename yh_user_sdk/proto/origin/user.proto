@@ -1,0 +1,85 @@
+syntax = "proto3";  // 指定使用proto3语法
+
+package yh_user;    // 定义包名，防止命名冲突
+
+    
+// 响应状态
+message Status {
+    int64 number = 1;
+    int32 code = 2;
+    string msg = 3;
+}
+
+// 用户自身信息
+message info {
+
+    Status status = 1;
+    Data data = 2;
+    message Data {
+        // 11是描述手机号长整数的,懒得解析了
+        string id = 1;
+        string name = 2;
+        string avatar_url = 4;
+        int64 avatar_id = 5;
+        string phone = 6;
+        string email = 7;
+        double coin = 8;
+        int32 is_vip = 9;
+        int64 vip_expired_time = 10;
+        string invitation_code = 12;
+    }
+}
+
+// 获取用户信息
+message get_user_send { // 发送用的函数
+    string id = 2;
+}
+
+message get_user {
+    Status status = 1;
+    Data data = 2;
+    message Data {
+        string id = 1;
+        string name = 2;
+        int64 name_id = 3;
+        string avatar_url = 4;
+        int64 avatar_id = 5;
+        repeated Medal_info medal = 6;
+        string register_time = 7;
+        int32 online_day = 11;
+        int32 continuous_online_day = 12;
+        int32 is_vip = 13; // 是否为vip
+        int64 vip_expired_time = 14;
+    }
+}
+
+// 勋章
+message medal {
+    Status status = 1;
+    repeated Medal_info medal = 2;
+}
+
+// 勋章信息
+message Medal_info {
+    int64 id = 1;
+    string name = 2;
+    int64 sort = 5;
+}
+
+// 编辑昵称
+message edit_nickname_send {
+    string name = 3;
+}
+
+message edit_nickname {
+    Status status = 1;
+}
+
+// 编辑头像
+message edit_avatar_send {
+    string url = 2;
+}
+
+message edit_avatar {
+    Status status = 1;
+}

@@ -1,7 +1,6 @@
 import httpx
 from ..proto import msg_pb2
 from google.protobuf import json_format
-import logging
 import uuid
 import json
 from .. import config
@@ -158,5 +157,19 @@ class msg:
         json_format.ParseDict(payload_dict, request, ignore_unknown_fields=False)
         payload = request.SerializeToString()
         response = request_api("edit-message", headers, data = payload)
+        status = status_only(response)
+        return status
+    
+    def button_report(self, chat_id: str, chat_type, msg_id: str, user_id: str, button_text: str):
+        chat_type = mapping_chat_type(chat_type)
+        headers = {"token": self.token}
+        request = msg_pb2.button_report_send()
+        request.chat_id = chat_id
+        request.chat_type = int(chat_type)
+        request.msg_id = msg_id
+        request.user_id = user_id
+        request.button_text = button_text
+        payload = request.SerializeToString()
+        response = request_api("button-report", headers, data = payload)
         status = status_only(response)
         return status

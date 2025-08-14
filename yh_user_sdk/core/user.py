@@ -1,7 +1,6 @@
 from google.protobuf import json_format
 import httpx
 from ..proto import user_pb2
-import logging
 import uuid
 
 def request_api(url, headers = None , data = None, json = False): # 后面这个json是表明返回是不是json内容
@@ -98,5 +97,3 @@ class user:
         payload = {"deviceId": deviceId}
         response = request_api("logout", headers, data = payload, json = True)
         return response
-
-logging.debug("模块user被导入")

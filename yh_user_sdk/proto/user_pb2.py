@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x12\x07yh_user\"3\n\x06Status\x12\x0e\n\x06number\x18\x01 \x01(\x04\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x04\x12\x0b\n\x03msg\x18\x03 \x01(\t\"\xf2\x01\n\x04info\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12 \n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x12.yh_user.info.Data\x1a\xa6\x01\n\x04\x44\x61ta\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\navatar_url\x18\x04 \x01(\t\x12\x11\n\tavatar_id\x18\x05 \x01(\x04\x12\r\n\x05phone\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04\x63oin\x18\x08 \x01(\x01\x12\x18\n\x10vip_expired_time\x18\n \x01(\x04\x12\x17\n\x0finvitation_code\x18\x0c \x01(\t\"\x1b\n\rget_user_send\x12\n\n\x02id\x18\x02 \x01(\t\"\xb4\x02\n\x08get_user\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12$\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x16.yh_user.get_user.Data\x1a\xe0\x01\n\x04\x44\x61ta\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07name_id\x18\x03 \x01(\x04\x12\x12\n\navatar_url\x18\x04 \x01(\t\x12\x11\n\tavatar_id\x18\x05 \x01(\x04\x12\"\n\x05medal\x18\x06 \x03(\x0b\x32\x13.yh_user.Medal_info\x12\x15\n\rregister_time\x18\x07 \x01(\t\x12\x12\n\nonline_day\x18\x0b \x01(\x04\x12\x1d\n\x15\x63ontinuous_online_day\x18\x0c \x01(\x04\x12\x18\n\x10vip_expired_time\x18\x0e \x01(\x04\"L\n\x05medal\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12\"\n\x05medal\x18\x02 \x03(\x0b\x32\x13.yh_user.Medal_info\"4\n\nMedal_info\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04sort\x18\x05 \x01(\x04\"\"\n\x12\x65\x64it_nickname_send\x12\x0c\n\x04name\x18\x03 \x01(\t\"0\n\redit_nickname\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\"\x1f\n\x10\x65\x64it_avatar_send\x12\x0b\n\x03url\x18\x02 \x01(\t\".\n\x0b\x65\x64it_avatar\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Statusb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nuser.proto\x12\x07yh_user\"3\n\x06Status\x12\x0e\n\x06number\x18\x01 \x01(\x03\x12\x0c\n\x04\x63ode\x18\x02 \x01(\x05\x12\x0b\n\x03msg\x18\x03 \x01(\t\"\x82\x02\n\x04info\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12 \n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x12.yh_user.info.Data\x1a\xb6\x01\n\x04\x44\x61ta\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\navatar_url\x18\x04 \x01(\t\x12\x11\n\tavatar_id\x18\x05 \x01(\x03\x12\r\n\x05phone\x18\x06 \x01(\t\x12\r\n\x05\x65mail\x18\x07 \x01(\t\x12\x0c\n\x04\x63oin\x18\x08 \x01(\x01\x12\x0e\n\x06is_vip\x18\t \x01(\x05\x12\x18\n\x10vip_expired_time\x18\n \x01(\x03\x12\x17\n\x0finvitation_code\x18\x0c \x01(\t\"\x1b\n\rget_user_send\x12\n\n\x02id\x18\x02 \x01(\t\"\xc4\x02\n\x08get_user\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12$\n\x04\x64\x61ta\x18\x02 \x01(\x0b\x32\x16.yh_user.get_user.Data\x1a\xf0\x01\n\x04\x44\x61ta\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0f\n\x07name_id\x18\x03 \x01(\x03\x12\x12\n\navatar_url\x18\x04 \x01(\t\x12\x11\n\tavatar_id\x18\x05 \x01(\x03\x12\"\n\x05medal\x18\x06 \x03(\x0b\x32\x13.yh_user.Medal_info\x12\x15\n\rregister_time\x18\x07 \x01(\t\x12\x12\n\nonline_day\x18\x0b \x01(\x05\x12\x1d\n\x15\x63ontinuous_online_day\x18\x0c \x01(\x05\x12\x0e\n\x06is_vip\x18\r \x01(\x05\x12\x18\n\x10vip_expired_time\x18\x0e \x01(\x03\"L\n\x05medal\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\x12\"\n\x05medal\x18\x02 \x03(\x0b\x32\x13.yh_user.Medal_info\"4\n\nMedal_info\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04sort\x18\x05 \x01(\x03\"\"\n\x12\x65\x64it_nickname_send\x12\x0c\n\x04name\x18\x03 \x01(\t\"0\n\redit_nickname\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Status\"\x1f\n\x10\x65\x64it_avatar_send\x12\x0b\n\x03url\x18\x02 \x01(\t\".\n\x0b\x65\x64it_avatar\x12\x1f\n\x06status\x18\x01 \x01(\x0b\x32\x0f.yh_user.Statusb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,25 +34,25 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_STATUS']._serialized_start=23
   _globals['_STATUS']._serialized_end=74
   _globals['_INFO']._serialized_start=77
-  _globals['_INFO']._serialized_end=319
+  _globals['_INFO']._serialized_end=335
   _globals['_INFO_DATA']._serialized_start=153
-  _globals['_INFO_DATA']._serialized_end=319
-  _globals['_GET_USER_SEND']._serialized_start=321
-  _globals['_GET_USER_SEND']._serialized_end=348
-  _globals['_GET_USER']._serialized_start=351
-  _globals['_GET_USER']._serialized_end=659
-  _globals['_GET_USER_DATA']._serialized_start=435
-  _globals['_GET_USER_DATA']._serialized_end=659
-  _globals['_MEDAL']._serialized_start=661
-  _globals['_MEDAL']._serialized_end=737
-  _globals['_MEDAL_INFO']._serialized_start=739
-  _globals['_MEDAL_INFO']._serialized_end=791
-  _globals['_EDIT_NICKNAME_SEND']._serialized_start=793
-  _globals['_EDIT_NICKNAME_SEND']._serialized_end=827
-  _globals['_EDIT_NICKNAME']._serialized_start=829
-  _globals['_EDIT_NICKNAME']._serialized_end=877
-  _globals['_EDIT_AVATAR_SEND']._serialized_start=879
-  _globals['_EDIT_AVATAR_SEND']._serialized_end=910
-  _globals['_EDIT_AVATAR']._serialized_start=912
-  _globals['_EDIT_AVATAR']._serialized_end=958
+  _globals['_INFO_DATA']._serialized_end=335
+  _globals['_GET_USER_SEND']._serialized_start=337
+  _globals['_GET_USER_SEND']._serialized_end=364
+  _globals['_GET_USER']._serialized_start=367
+  _globals['_GET_USER']._serialized_end=691
+  _globals['_GET_USER_DATA']._serialized_start=451
+  _globals['_GET_USER_DATA']._serialized_end=691
+  _globals['_MEDAL']._serialized_start=693
+  _globals['_MEDAL']._serialized_end=769
+  _globals['_MEDAL_INFO']._serialized_start=771
+  _globals['_MEDAL_INFO']._serialized_end=823
+  _globals['_EDIT_NICKNAME_SEND']._serialized_start=825
+  _globals['_EDIT_NICKNAME_SEND']._serialized_end=859
+  _globals['_EDIT_NICKNAME']._serialized_start=861
+  _globals['_EDIT_NICKNAME']._serialized_end=909
+  _globals['_EDIT_AVATAR_SEND']._serialized_start=911
+  _globals['_EDIT_AVATAR_SEND']._serialized_end=942
+  _globals['_EDIT_AVATAR']._serialized_start=944
+  _globals['_EDIT_AVATAR']._serialized_end=990
 # @@protoc_insertion_point(module_scope)

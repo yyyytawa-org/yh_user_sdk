@@ -1,5 +1,8 @@
 # __init__.py
 from .core import user # 自动获得所有延迟加载模块
+from .core import other
+from .core import msg
+from .core import group
 
 class set_token:
     def __init__(self, token = None):
@@ -14,3 +17,13 @@ class set_token:
     def msg(self):
         from .core.msg import msg
         return msg(self.token)
+    
+    @property 
+    def group(self):
+        from .core.group import group
+        return group(self.token)
+    
+    @property 
+    def conversation(self):
+        from .core.other import conversation
+        return conversation(self.token)
