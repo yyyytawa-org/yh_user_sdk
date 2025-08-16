@@ -75,11 +75,7 @@ message Msg {
 
 // 心跳包返回信息
 message heartbeat_ack {
-    Data data = 1; //数据
-    message Data {
-        string id = 1; // 请求标识码，可以随便写
-        string cmd = 2; // 为heartbeat，代表心跳包
-    }
+    INFO info = 1; //数据
 }
 
 // ws推送消息
@@ -101,5 +97,41 @@ message edit_message {
     message Data {
         string cmd = 1;
         Msg msg = 2;
+    }
+}
+
+// 超级文件分享
+message file_send_message {
+  INFO info = 1;
+  Data data = 2;
+
+  message Data {
+    string cmd = 1;
+    Sender sender = 2;
+        
+    message Sender {
+      string send_user_id = 1; // 分享者用户ID
+      string user_id = 2; // 接收者用户ID
+      uint64 temp_code = 3; // 未知
+      string send_type = 4; // 分享类别区分文本
+      string data = 5; // 经过转义后的json格式发送数据
+      string send_deviceId = 6; // 发送者设备唯一标识符
+    }
+  }
+}
+
+// 草稿同步
+message draft_input {
+    INFO info = 1;
+    Data data = 2;
+    
+    message Data {
+        string cmd = 1;
+        Draft draft = 2;
+        
+        message Draft {
+            string chat_id = 1; // 对象ID
+            string input = 2; // 草稿内容
+        }
     }
 }

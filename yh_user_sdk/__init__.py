@@ -27,3 +27,8 @@ class set_token:
     def conversation(self):
         from .core.other import conversation
         return conversation(self.token)
+    
+    @property 
+    def ws(self):
+        from .core.ws import ws
+        return ws(self.token)
