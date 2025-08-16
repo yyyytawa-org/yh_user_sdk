@@ -17,7 +17,9 @@ def request_api(url, headers = None , data = None, json = False): # 后面这个
 class user:
     def __init__(self, token = None):
         self.token = token
-    
+        # 下面是函数别名
+        self.get = self.get_user
+
     def info(self):
         headers = {"token": self.token}
         response = httpx.get("https://chat-go.jwzhd.com/v1/user/info",headers = headers)
