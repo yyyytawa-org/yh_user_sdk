@@ -31,6 +31,8 @@ class group:
     def __init__(self, token):
         self.token = token
         self.tag = self.tag(token)
+        # 别名部分
+        self.edit = self.edit_group
 
     def info(self, group_id: str):
         headers = {"token": self.token}
