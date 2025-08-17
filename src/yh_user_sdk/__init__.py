@@ -32,3 +32,13 @@ class set_token:
     def ws(self):
         from .core.ws import ws
         return ws(self.token)
+    
+    @property 
+    def misc(self):
+        from .core.other import misc
+        return misc(self.token)
+    
+    @property 
+    def tool(self):
+        from .core.tool import tool
+        return tool(self.token)

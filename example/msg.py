@@ -1,5 +1,3 @@
-import sys
-sys.path.append("..")
 import yh_user_sdk as sdk
 # from yh_user_sdk.core.msg import msg
 # 如果你想要单独导入msg的话请使用上面这个,会导致下列命令请求格式变化 传入token的话直接msg("token")就行

@@ -1,10 +1,10 @@
-chat_type_mapping = {
+chat_type_mapping = { # 聊天类型映射
     "user": 1,
     "group": 2,
     "bot": 3
 }
 
-content_type_mapping = {
+content_type_mapping = { # 内容类型映射
     "text": 1,
     "image": 2,
     "markdown": 3,

@@ -24,10 +24,9 @@ class ws:
         self.ws = None
         self.enable = True
 
-    async def heartbeat_ack(self):
+    async def heartbeat_ack(self): # 发送心跳包的协程
         while self.enable:
             try:
-                heartbeat_task = None
                 heartbeat = json.dumps({
                     "seq": uuid.uuid4().hex,
                     "cmd": "heartbeat",
@@ -46,7 +45,7 @@ class ws:
                 logging.error(e)
                 break
     
-    async def connect(self):
+    async def connect(self, decode = True, mode = "black", list = []): # 连接到WS的
         self.enable = True
         while self.enable:
             try:
@@ -65,10 +64,20 @@ class ws:
                     logging.info("正在发送登录请求")
                     await self.ws.send(login)
                     heartbeat_task = asyncio.create_task(self.heartbeat_ack())
-                    while self.enable:
-                        response = await asyncio.wait_for(self.ws.recv(),timeout = 70)
-                        logging.debug(response.hex())
-                        yield response
+                    if not decode:
+                        while self.enable:
+                            response = await asyncio.wait_for(self.ws.recv(),timeout = 70)
+                            logging.debug(response.hex())
+                            yield response
+                    else:
+                        while self.enable:
+                            response = await asyncio.wait_for(self.ws.recv(),timeout = 70)
+                            logging.debug(response.hex())
+                            msg = await self.decode(response, mode = mode, list = list)
+                            if msg:
+                                yield msg
+                            else:
+                                continue
             except websockets.exceptions.ConnectionClosed:
                 logging.error("WS断开")
                 if heartbeat_task:
@@ -94,35 +103,28 @@ class ws:
           await self.ws.close()
           self.ws = None
 
-    async def decode(self, msg):
+    async def decode(self, msg, mode = "black", list = []):
         from google.protobuf import json_format
+        cmd_map = {
+            "draft_input": ws_pb2.draft_input,
+            "push_message": ws_pb2.push_message,
+            "edit_message": ws_pb2.edit_message,
+            "file_send_message": ws_pb2.edit_message
+        }
         msg_temp = ws_pb2.heartbeat_ack()
         msg_temp.ParseFromString(msg)
 
+        if mode == "black" and msg_temp.info.cmd in list:
+            return
+        elif mode == "white" and msg_temp.info.cmd not in list:
+            return
+
         if msg_temp.info.cmd == "heartbeat_ack":
             msg_data = json_format.MessageToDict(msg_temp)
-            return msg_data
-
-        if msg_temp.info.cmd == "draft_input":
-            msg_data = ws_pb2.draft_input()
-            msg_data.ParseFromString(msg)
-            msg_data = json_format.MessageToDict(msg_data)
-            return msg_data
-
-        if msg_temp.info.cmd == "push_message":
-            msg_data = ws_pb2.push_message()
-            msg_data.ParseFromString(msg)
-            msg_data = json_format.MessageToDict(msg_data)
-            return msg_data
-
-        if msg_temp.info.cmd == "edit_message":
-            msg_data = ws_pb2.edit_message()
-            msg_data.ParseFromString(msg)
-            msg_data = json_format.MessageToDict(msg_data)
-            return msg_data
-        
-        if msg_temp.info.cmd == "file_send_message":
-            msg_data = ws_pb2.file_send_message()
+            return msg_data  
+        elif msg_temp.info.cmd in cmd_map:
+            msg_class = cmd_map[msg_temp.info.cmd]
+            msg_data = msg_class()
             msg_data.ParseFromString(msg)
             msg_data = json_format.MessageToDict(msg_data)
             return msg_data

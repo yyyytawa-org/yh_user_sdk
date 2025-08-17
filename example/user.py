@@ -1,5 +1,3 @@
-import sys
-sys.path.append("..")
 import yh_user_sdk as sdk
 # from yh_user_sdk.core.user import user
 # 如果你想要单独导入user的话用上面这个,后面命令都需要改 例如说第一个client应该改为 client = user("YOUR_TOKEN") 获取用户信息是 client.info()

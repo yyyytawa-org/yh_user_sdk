@@ -1,5 +1,3 @@
-import sys
-sys.path.append("..")
 import yh_user_sdk as sdk
 # from yh_user_sdk.core.group import group
 # 如果你想要单独导入group的话请使用上面这个,会导致下列命令请求格式变化 传入token的话直接group("token")就行

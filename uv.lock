@@ -136,12 +136,17 @@ wheels = [
 
 [[package]]
 name = "yh-user-sdk"
-version = "0.1.2"
-source = { virtual = "." }
+version = "0.1.4"
+source = { editable = "." }
 dependencies = [
     { name = "httpx" },
     { name = "protobuf" },
     { name = "websockets" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "yh-user-sdk" },
 ]
 
 [package.metadata]
@@ -150,3 +155,6 @@ requires-dist = [
     { name = "protobuf", specifier = ">=6.31.1" },
     { name = "websockets", specifier = ">=15.0.1" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "yh-user-sdk", editable = "." }]
