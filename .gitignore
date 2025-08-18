@@ -209,3 +209,6 @@ __marimo__/
 # 忽略测试文件
 test
 test.py
+
+# 忽略环境lock
+uv.lock
