@@ -15,16 +15,15 @@ class tool:
             type2bucket_name = {
                 "file": "chat68-file",
                 "image": "chat68",
-                "audio": "chat68-file",
+                "audio": "chat68-audio",
                 "video": "chat68",
                 "group_disk": "chat68-file"
             }
             client = misc(self.token)
-            utoken_response = client.qiniu_token(type)
-            if utoken_response.get("status", {}).get("code") != 1:
-                logging.error(f"请求失败, msg: {utoken_response.get("status",{}).get("msg")}")
+            utoken = client.qiniu_token(type).get("data", {}).get("token")
+            if not utoken:
+                logging.error("获取 utoken 失败")
                 return
-            utoken = utoken_response["data"]["token"]
             uhost = httpx.get(f"https://api.qiniu.com/v4/query?ak={utoken.split(':')[0]}&bucket={type2bucket_name.get(type,'chat68-file')}").json()["hosts"][0]["up"]["domains"][0]
             # 三连两行解决战斗,可读性去世.
             if not name:
