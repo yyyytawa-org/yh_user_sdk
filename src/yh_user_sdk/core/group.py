@@ -7,9 +7,9 @@ from .. import config
 
 def request_api(url, headers = None , data = None, json = False): # 后面这个json是表明返回是不是json内容
     if isinstance(data,bytes): # 判断是不是二进制数据
-        response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,data = data, timeout = 60)
+        response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,data = data, timeout = group.timeout)
     else:
-        response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,json = data, timeout = 60)
+        response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,json = data, timeout = group.timeout)
     response.raise_for_status()
     if not json:
         return response.content
@@ -28,9 +28,11 @@ def mapping_chat_type(chat_type):
     return chat_type
 
 class group:
-    def __init__(self, token):
+    timeout = 10
+    def __init__(self, token, timeout =  None):
         self.token = token
-        self.tag = self.tag(token)
+        self.tag = self.tag(token, timeout = timeout)
+        self.timeout = timeout if timeout else self.timeout
         # 别名部分
         self.edit = self.edit_group
 
@@ -119,14 +121,15 @@ class group:
         return response
 
     class tag:
-        def __init__(self, token):
+        def __init__(self, token, timeout = None):
             self.token = token
+            self.timeout = timeout if timeout else 10
             self.unrelate = self.relate_cancel
 
         def request_api(self, url, headers = None, data = None):
             if not headers:
               headers = {"token": self.token}
-            response = httpx.post("https://chat-go.jwzhd.com/v1/group-tag/"+url, headers = headers, json = data)
+            response = httpx.post("https://chat-go.jwzhd.com/v1/group-tag/"+url, headers = headers, json = data, timeout = self.timeout)
             response.raise_for_status()
             return response.json()
 

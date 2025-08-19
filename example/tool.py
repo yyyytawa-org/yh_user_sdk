@@ -1,6 +1,6 @@
 import yh_user_sdk as sdk
 
-client = sdk.set_token("YOIR_TOKEN")
+client = sdk.set_token("YOUR_TOKEN")
 
 # 上传语音+发送语音
 with open("测试.flac", "rb") as f:

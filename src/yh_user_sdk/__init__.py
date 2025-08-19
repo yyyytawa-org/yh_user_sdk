@@ -5,8 +5,9 @@ from .core import msg
 from .core import group
 
 class set_token:
-    def __init__(self, token = None):
+    def __init__(self, token = None, timeout = None):
         self.token = token
+        self.timeout = timeout
     
     @property
     def user(self):
@@ -16,12 +17,12 @@ class set_token:
     @property 
     def msg(self):
         from .core.msg import msg
-        return msg(self.token)
+        return msg(self.token, timeout = self.timeout)
     
     @property 
     def group(self):
         from .core.group import group
-        return group(self.token)
+        return group(self.token, timeout = self.timeout)
     
     @property 
     def conversation(self):
@@ -42,3 +43,8 @@ class set_token:
     def tool(self):
         from .core.tool import tool
         return tool(self.token)
+
+    @property 
+    def web(self):
+        from .core.web import web
+        return web(self.token)

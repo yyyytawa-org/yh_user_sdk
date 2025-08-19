@@ -1,4 +1,5 @@
 import yh_user_sdk as sdk
+import asyncio
 
 async def main():
     client = sdk.set_token("Your Token")

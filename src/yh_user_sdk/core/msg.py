@@ -7,9 +7,9 @@ from .. import config
 
 def request_api(url, headers = None , data = None, json = False): # 后面这个json是表明返回是不是json内容
     if isinstance(data,bytes): # 判断是不是二进制数据
-        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,data = data, timeout = 20)
+        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,data = data, timeout = msg.timeout)
     else:
-        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,json = data, timeout = 20)
+        response = httpx.post("https://chat-go.jwzhd.com/v1/msg/"+url,headers = headers,json = data, timeout = msg.timeout)
     response.raise_for_status()
     if not json:
         return response.content
@@ -28,8 +28,10 @@ def mapping_chat_type(chat_type):
     return chat_type
 
 class msg:
-    def __init__(self, token):
+    timeout = 60
+    def __init__(self, token, timeout = None):
         self.token = token
+        self.timeout = timeout if timeout else self.timeout
         # 下面都是别名
         self.list = self.list_msg
         self.list_by_seq = self.list_msg_by_seq

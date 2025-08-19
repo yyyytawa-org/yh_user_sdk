@@ -46,6 +46,7 @@ message get_user {
         int64 avatar_id = 5;
         repeated Medal_info medal = 6;
         string register_time = 7;
+        int64 ban_time = 10; // 封禁结束时间(时间戳)
         int32 online_day = 11;
         int32 continuous_online_day = 12;
         int32 is_vip = 13; // 是否为vip
