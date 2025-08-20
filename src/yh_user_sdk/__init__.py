@@ -48,3 +48,8 @@ class set_token:
     def web(self):
         from .core.web import web
         return web(self.token)
+
+    @property 
+    def disk(self):
+        from .core.other import disk
+        return disk(self.token)
