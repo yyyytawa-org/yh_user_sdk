@@ -5,16 +5,25 @@ from ..proto import group_pb2
 import logging
 from .. import config
 
-def request_api(url, headers = None , data = None, json = False): # 后面这个json是表明返回是不是json内容
+def request_api(url, headers = None , data = None, json = False, msg_name = None): # 后面这个json是表明返回是不是json内容
     if isinstance(data,bytes): # 判断是不是二进制数据
         response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,data = data, timeout = group.timeout)
     else:
         response = httpx.post("https://chat-go.jwzhd.com/v1/group/"+url,headers = headers,json = data, timeout = group.timeout)
     response.raise_for_status()
-    if not json:
-        return response.content
-    else:
+    if json:
         return response.json()
+    elif msg_name:
+        try:
+            proto_class = getattr(group_pb2, msg_name)
+            proto_instance = proto_class()
+            proto_instance.ParseFromString(response.content)
+            return json_format.MessageToDict(proto_instance)
+        except AttributeError:
+            logging.error(f"protobuf中找不到名为'{msg_name}'的message.")
+            return
+    else:
+        return response.content
 
 def status_only(data): # 专门负责解只有一种status的情况
     status = group_pb2.edit_group()
@@ -41,11 +50,8 @@ class group:
         request = group_pb2.info_send()
         request.group_id = group_id
         payload = request.SerializeToString()
-        response = request_api("info", headers, data = payload)
-        group_info = group_pb2.info()
-        group_info.ParseFromString(response)
-        group_info = json_format.MessageToDict(group_info)
-        return group_info
+        response = request_api("info", headers, data = payload,msg_name = "info")
+        return response
 
     def list_member(self, group_id: str, size = 50, page = 1):
         headers = {"token": self.token}
@@ -54,11 +60,8 @@ class group:
         request.data.size = int(size)
         request.data.page = int(page)
         payload = request.SerializeToString()
-        response = request_api("list-member", headers, data = payload)
-        member = group_pb2.list_member()
-        member.ParseFromString(response)
-        member = json_format.MessageToDict(member)
-        return member
+        response = request_api("list-member", headers, data = payload, msg_name = "list_member")
+        return response
 
     def edit_group(self, group_id: str, data = {}):
         headers = {"token": self.token}
@@ -124,7 +127,9 @@ class group:
         def __init__(self, token, timeout = None):
             self.token = token
             self.timeout = timeout if timeout else 10
+            # 别名
             self.unrelate = self.relate_cancel
+            self.members = self.member
 
         def request_api(self, url, headers = None, data = None):
             if not headers:
@@ -182,6 +187,19 @@ class group:
             response = self.request_api("edit", data = tag_info)
             return response
 
+        def member(self, group_id: str, tag_id: int, size = 50, page = 1):
+            request = group_pb2.tag_member_send()
+            request.data.size = int(size)
+            request.data.page = int(page)
+            request.group_id = group_id
+            request.tag_id = int(tag_id)
+            payload = request.SerializeToString()
+            with httpx.Client(transport = httpx.HTTPTransport(retries = 3)) as client:
+                response = client.post("https://chat-go.jwzhd.com/v1/group-tag/members", headers = {"token": self.token}, data = payload)
+            member = group_pb2.tag_member()
+            member.ParseFromString(response.content)
+            return json_format.MessageToDict(member)
+     
         def relate(self, user_id: str, tag_id: int):
             payload = {
                 "userId": user_id,

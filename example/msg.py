@@ -113,4 +113,4 @@ print(client.msg.button_report(
     chat_type, # 对象类型
     msg_id: str, # 消息id
     user_id: str, # 用户id
-    button_text: str)) # 按钮文字(?)
+    button_value: str)) # 按钮的值

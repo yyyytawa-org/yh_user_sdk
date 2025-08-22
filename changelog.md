@@ -1,3 +1,8 @@
+### 0.1.9
+修正 msg 的 button_report 对按钮值的变量命名.  
+新增 bot 的 info, bot_group_list  
+新增 group.tag 的 member(s)
+
 ### 0.1.8
 更新群云盘相关接口的SDK.  
 

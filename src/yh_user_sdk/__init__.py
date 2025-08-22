@@ -53,3 +53,8 @@ class set_token:
     def disk(self):
         from .core.other import disk
         return disk(self.token)
+
+    @property 
+    def bot(self):
+        from .core.bot import bot
+        return bot(self.token)

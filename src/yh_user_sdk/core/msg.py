@@ -171,7 +171,7 @@ class msg:
         status = status_only(response)
         return status
     
-    def button_report(self, chat_id: str, chat_type, msg_id: str, user_id: str, button_text: str):
+    def button_report(self, chat_id: str, chat_type, msg_id: str, user_id: str, button_value: str):
         chat_type = mapping_chat_type(chat_type)
         headers = {"token": self.token}
         request = msg_pb2.button_report_send()
@@ -179,7 +179,7 @@ class msg:
         request.chat_type = int(chat_type)
         request.msg_id = msg_id
         request.user_id = user_id
-        request.button_text = button_text
+        request.button_value = button_value
         payload = request.SerializeToString()
         response = request_api("button-report", headers, data = payload)
         status = status_only(response)

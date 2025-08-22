@@ -14,6 +14,22 @@ message info_send {
     string group_id = 2;
 }
 
+message User {
+    string group_id = 1;
+    User_info user_info = 2;
+
+    message User_info {
+        string user_id = 1;
+        string name = 2;
+        string avatar_url = 4;
+        int32 is_vip = 6;
+    }
+        
+    int32 permission_level = 3;
+    int64 gag_time = 4; // 禁言时间
+    int32 is_gag = 5; // 是否被禁言
+}
+
 message info {
     Status status = 1;
     Group_data data = 2;
@@ -85,21 +101,6 @@ message list_member_send {
 message list_member {
     Status status = 1;
     repeated User user = 2;
-    
-    message User {
-        string group_id = 1;
-        User_info user_info = 2;
-        
-        message User_info {
-            string user_id = 1;
-            string name = 2;
-            string avatar_url = 4;
-        }
-        
-        int32 permission_level = 3;
-        int64 gag_time = 4; // 禁言时间
-        int32 is_gag = 5; // 是否被禁言
-    }
 }
 
 // 编辑群聊信息
@@ -117,4 +118,21 @@ message edit_group_send {
 
 message edit_group {
     Status status = 1;
+}
+
+// 标签绑定的用户列表
+message tag_member_send {
+    Data data = 2;
+    message Data {
+        int32 size = 1; // 分页大小
+        int32 page = 2; // 页数
+    }
+    string group_id = 3;
+    int64 tag_id = 4; // 标签ID
+}
+
+message tag_member {
+    Status status = 1;
+    repeated User user = 2;
+    int64 total = 3; // 总数
 }

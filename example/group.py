@@ -90,6 +90,13 @@ print(client.group.tag.relate(
     "7058262", # 要关联到用户的ID
     1145)) # 标签ID
 
+# 获取标签关联的用户
+print(yt.group.tag.member(
+    "big", # 群组ID
+    1145, # 标签ID
+    size = 50, # 分页大小
+    page = 1)) # 分页(第N页)
+
 # 取消关联标签
 print(client.group.tag.relate_cancel( # 别名unrelate
     "7058262", # 取消关联的用户的ID
