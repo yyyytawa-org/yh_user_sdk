@@ -154,3 +154,130 @@ class disk:
         }
         response = self.request_api("remove", data = payload)
         return response
+
+class sticker:
+    """表情包相关"""
+    import json
+    def __init__(self, token):
+        self.token = token
+        # 别名
+        self.remove_sticker_pack = self.remove
+        self.rm = self.remove
+
+    def request_api(self, url, headers = None, data = None):
+        """方便请求用的"""
+        headers = {"token": self.token} if headers is None else headers
+        with httpx.Client(base_url = "https://chat-go.jwzhd.com/v1/sticker/", transport = httpx.HTTPTransport(retries = 3)) as client:
+            response = client.post(url, headers = headers, json = data)
+        response.raise_for_status()
+        return response.json()
+
+    def list(self):
+        """列出收藏表情包"""
+        response = self.request_api("list")
+        return response
+
+    def detail(self, id: int):
+        """列出指定的表情包信息"""
+        data = {"id": int(id)}
+        response = self.request_api("detail", data = data)
+        return response
+
+    def add(self, id: int):
+        """添加表情包"""
+        data = {"id": int(id)}
+        response = self.request_api("add", data = data)
+        return response
+
+    def remove(self, id: int):
+        """移除表情包"""
+        return self.request_api("remove-sticker-pack", data = {"id": int(id)})
+
+    def sort(self, data: list):
+        """排序"""
+        if isinstance(data, list):
+            data = json.dumps(data)
+        payload = {sort: data}
+        response = self.request_api("sort", data = payload)
+        return response
+
+class expression:
+    """个人表情收藏"""
+    def __init__(self, token):
+        self.token = token
+        # 别名
+        self.topping = self.top
+
+    def request_api(self, url, headers = None, data = None):
+        """发请求用的"""
+        headers = {"token": self.token} if headers is None else headers
+        with httpx.Client(base_url = "https://chat-go.jwzhd.com/v1/expression/", transport = httpx.HTTPTransport(retries = 3)) as client:
+            response = client.post(url, headers = headers, json = data)
+        response.raise_for_status()
+        return response.json()
+
+    def list(self):
+        """列出个人收藏表情"""
+        return self.request_api("list")
+
+    def create(self, url: str):
+        """创建个人收藏表情"""
+        payload = {"url": url}
+        return self.request_api("create", data = payload)
+
+    def add(self, id: int):
+        """添加表情"""
+        payload = {"id": int(id)}
+        return self.request_api("add", data = payload)
+
+    def delete(self, id: int):
+        """删除表情"""
+        payload = {"id": int(id)}
+        return self.request_api("delete", data = payload)
+
+    def top(self, id: int):
+        """置顶表情"""
+        payload = {"id": int(id)}
+        return self.request_api("topping", data = payload)
+
+class sticky:
+    """置顶会话相关"""
+    def __init__(self, token):
+        self.token = token
+        # 别名
+        self.topping = self.top
+    
+    def request_api(self, url, headers = None, data = None):
+        """发请求用的awa"""
+        headers = {"token": self.token} if headers is None else headers
+        with httpx.Client(base_url = "https://chat-go.jwzhd.com/v1/sticky/", transport = httpx.HTTPTransport(retries = 3)) as client:
+            response = client.post(url, headers = headers, json = data)
+        response.raise_for_status()
+        return response.json()
+
+    def list(self):
+        """列出置顶会话"""
+        return self.request_api("list")
+
+    def add(self, chat_id: str, chat_type):
+        """添加置顶会话"""
+        chat_type = mapping_chat_type(chat_type)
+        payload = {
+            "chatId": chat_id,
+            "chatType": int(chat_type)
+        }
+        return self.request_api("add", data = payload)
+
+    def delete(self, chat_id: str, chat_type):
+        """移除置顶会话"""
+        chat_type = mapping_chat_type(chat_type)
+        payload = {
+            "chatId": chat_id,
+            "chatType": int(chat_type)
+        }
+        return self.request_api("delete", data = payload)
+
+    def top(self, id: int):
+        """将一个置顶会话移到最前"""
+        payload = {"id": int(id)}
+        return self.request_api("topping", data = payload)

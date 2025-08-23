@@ -1,5 +1,5 @@
 import yh_user_sdk as sdk
-# from yh_user_sdk.core.other import bot
+# from yh_user_sdk.core.bot import bot
 
 client = sdk.set_token("YOUR_TOKEN")
 

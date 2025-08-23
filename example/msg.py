@@ -3,7 +3,7 @@ import yh_user_sdk as sdk
 # 如果你想要单独导入msg的话请使用上面这个,会导致下列命令请求格式变化 传入token的话直接msg("token")就行
 import json
 
-client = sdk.set_token("你的token")
+client = sdk.set_token("你的token", timeout = 114514) # timeout参数可以不写
 print(client.msg.list_msg( # 获取消息 也可以用别名 client.msg.list
     "big", # 对象ID
     "group", # 对象类型(支持填写英文(group/bot/user 全小写) 也可以填数字(对照参照文档)) 

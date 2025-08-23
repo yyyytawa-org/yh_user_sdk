@@ -58,3 +58,18 @@ class set_token:
     def bot(self):
         from .core.bot import bot
         return bot(self.token)
+
+    @property 
+    def sticker(self):
+        from .core.other import sticker
+        return sticker(self.token)
+
+    @property 
+    def expression(self):
+        from .core.other import expression
+        return expression(self.token)
+
+    @property 
+    def sticky(self):
+        from .core.other import sticky
+        return sticky(self.token)
