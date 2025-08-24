@@ -84,7 +84,7 @@ message push_message {
     Data data = 2;
 
     message Data {
-        string cmd = 1;
+        string any = 1;
         Msg msg = 2;
     }
 }
@@ -95,7 +95,7 @@ message edit_message {
     Data data = 2;
     
     message Data {
-        string cmd = 1;
+        string any = 1;
         Msg msg = 2;
     }
 }
@@ -106,7 +106,7 @@ message file_send_message {
   Data data = 2;
 
   message Data {
-    string cmd = 1;
+    string any = 1;
     Sender sender = 2;
         
     message Sender {
@@ -126,12 +126,33 @@ message draft_input {
     Data data = 2;
     
     message Data {
-        string cmd = 1;
+        string any = 1;
         Draft draft = 2;
         
         message Draft {
             string chat_id = 1; // 对象ID
             string input = 2; // 草稿内容
+        }
+    }
+}
+
+// 机器人公告设置
+message bot_board_message {
+    INFO info = 1;
+    Data data = 2;
+
+    message Data {
+        string any = 1; // Protobuf的any字段
+        Board_data board = 2;
+
+        message Board_data {
+            string bot_id = 1; // 机器人ID
+            string chat_id = 2; // 对象ID
+            int32 chat_type = 3;
+            string content = 4;
+            int32 content_type = 5;
+            int64 last_update_time = 6; // 最后更新时间戳
+            string bot_name = 7;
         }
     }
 }

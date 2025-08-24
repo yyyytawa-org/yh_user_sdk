@@ -123,6 +123,14 @@ class group:
         response = request_api("instruction-list", headers, data = payload, json = True)
         return response
 
+    def bot_list(self, group_id: str):
+        headers = {"token": self.token}
+        request = group_pb2.bot_list_send()
+        request.group_id = group_id
+        payload = request.SerializeToString()
+        response = request_api("bot-list", headers = headers, data = payload, msg_name = "bot_list")
+        return response
+
     class tag:
         def __init__(self, token, timeout = None):
             self.token = token

@@ -53,6 +53,9 @@ print(client.group.live_room("big")) # 群聊ID
 # 群指令列表
 print(client.group.instruction_list("big")) # 群聊ID
 
+# 列出群聊中的机器人
+print(client.group.bot_list("big"))
+
 # 标签相关
 # 获取标签列表
 print(client.group.tag.list(

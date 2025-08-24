@@ -1,3 +1,8 @@
+### 0.1.11
+ws 新增 bot_board_message 事件反序列化.  
+bot 新增 board
+group 新增 bot_list
+
 ### 0.1.10
 修正 bot 的 proto 中 avatar_id 类型.  
 新增 sticker, 目前支持 list, add, remove, sort, detail.  

@@ -109,7 +109,8 @@ class ws:
             "draft_input": ws_pb2.draft_input,
             "push_message": ws_pb2.push_message,
             "edit_message": ws_pb2.edit_message,
-            "file_send_message": ws_pb2.edit_message
+            "file_send_message": ws_pb2.edit_message,
+            "bot_board_message": ws_pb2.bot_board_message
         }
         msg_temp = ws_pb2.heartbeat_ack()
         msg_temp.ParseFromString(msg)

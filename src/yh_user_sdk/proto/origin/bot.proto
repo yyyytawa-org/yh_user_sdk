@@ -37,3 +37,24 @@ message bot_info {
         int32 group_limit = 20; // 限制进群
     }
 }
+
+// 看板
+message board_send {
+    string chat_id = 3; // 群聊/机器人ID
+    int64 chat_type = 4; // 对象类型 2-群聊 3-机器人
+}
+
+message board {
+    Status status = 1;
+    Board_data board = 2;
+
+    message Board_data {
+        string bot_id = 1; // 机器人ID
+        string chat_id = 2; // 对象ID
+        int32 chat_type = 3;
+        string content = 4;
+        int32 content_type = 5;
+        int64 last_update_time = 6; // 最后更新时间戳
+        string bot_name = 7;
+    }
+}

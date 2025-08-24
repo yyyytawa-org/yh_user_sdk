@@ -24,6 +24,12 @@ def request_api(url, headers = None , data = None, json = False, msg_name = None
     else:
         return response.content
 
+def mapping_chat_type(chat_type):
+    from .. import config
+    if chat_type in config.chat_type_mapping:
+        chat_type = config.chat_type_mapping[chat_type]
+    return chat_type
+
 class bot:
     def __init__(self,token = ""):
         self.token = token
@@ -56,4 +62,13 @@ class bot:
         bot_info = bot_rsp["data"]["bot"]
         bot_info.update(data)
         response = self.request_api("web-edit-bot", data = data)
+        return response
+    
+    def board(self, chat_id: str, chat_type):
+        request = bot_pb2.board_send()
+        chat_type = mapping_chat_type(chat_type)
+        request.chat_id = chat_id
+        request.chat_type = int(chat_type)
+        payload = request.SerializeToString()
+        response = request_api("board", headers = {"token": self.token}, data = payload, msg_name = "board")
         return response
