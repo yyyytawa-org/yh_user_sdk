@@ -1,3 +1,6 @@
+### 0.1.12
+tool 新增 get_msg  
+
 ### 0.1.11
 ws 新增 bot_board_message 事件反序列化.  
 bot 新增 board

@@ -75,7 +75,7 @@ message Msg {
 
 // 通过序列列出消息
 message list_message_by_seq_send {
-    int64 msg_start = 3; // 从第N个消息开始
+    int64 msg_seq = 3; // 从指定的msgSeq消息开始
     int64 chat_type = 4;
     string chat_id = 5;
 }
@@ -88,7 +88,7 @@ message list_message_by_seq {
 
 // 列出包含请求 msg_id 消息
 message list_message_by_mid_seq_send {
-    int64 request_id = 3; // 请求id
+    int64 msg_seq = 3; // 从指定的msgSeq开始
     int64 chat_type = 4;
     string chat_id = 5;
     int64 unknown = 6; // 不知道干啥的

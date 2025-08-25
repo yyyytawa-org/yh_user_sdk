@@ -1,5 +1,4 @@
 import httpx
-from .other import misc
 import logging
 
 class tool:
@@ -10,6 +9,7 @@ class tool:
         """
         上传文件,部分代码参考了114514个三连的脚本
         """
+        from .other import misc
         import hashlib
         try:
             type2bucket_name = {
@@ -36,5 +36,36 @@ class tool:
             }
             response = httpx.post("https://"+uhost, files=params)
             return response.json()
+        except Exception as e:
+            logging.error(f"发生错误 {e}")
+
+    def get_msg(self, chat_id: str, chat_type, msg_id = "", before = 0, after = 0) -> list:
+        from .msg import msg
+        """获取指定消息"""
+        try:
+            client = msg(self.token)
+            msg_data = []
+            if msg_id:
+                response = client.list_by_mid_seq(chat_id, chat_type, msg_id = msg_id, msg_seq = -1, msg_count = 1 if not after else after)
+                if response.get("status", {}).get("code") != 1:
+                    logging.error(f"请求失败, msg: {response.get("status", {}).get("msg")}")
+                    return
+                elif not response.get("msg"):
+                    logging.error(f"无法获取消息数据, rsp: {response}")
+                    return
+                if after:
+                    msg_data = response["msg"]
+                else:
+                    msg_data = [response["msg"][-1]]
+            if before:
+                response_before = client.list(chat_id, chat_type,msg_id = msg_id, msg_count = before)
+                if response_before.get("status", {}).get("code") != 1:
+                    logging.error(f"请求失败, msg: {response_before.get("status", {}).get("msg")}")
+                    return
+                elif not response_before.get("msg"):
+                    logging.error(f"无法获取消息数据, rsp: {response_before}")
+                    return
+                msg_data += response_before["msg"]
+            return msg_data
         except Exception as e:
             logging.error(f"发生错误 {e}")

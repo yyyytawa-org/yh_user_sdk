@@ -14,3 +14,11 @@ msg = {
     }
 }
 print(client.msg.send("big", 2, "audio", data = msg))
+
+# 获取指定消息信息
+print(client.tool.get_msg(
+    "big", # 会话ID
+    "group", # 会话类型
+    "abcdef", # 消息ID,不写默认获取最新消息
+    before = 10, # 获取指定消息ID的前N条消息,不写默认0
+    after = 10)) # 获取指定消息ID的后N条消息,不写默认0

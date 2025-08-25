@@ -19,6 +19,7 @@ print(client.msg.list_msg_by_mid_seq( # 别名 list_msg_by_mid_seq
     "big", # 对象ID
     "group", # 对象类型 同list_msg
     msg_id = "abcdef", # 开始的消息id,返回的消息包含此消息,不写似乎会返回群聊最前面的消息
+    msg_seq = -1, # 从指定的msg_seq开始(?) 不写默认-1
     msg_count = 233)) # 获取的消息数量,不写默认为1,实际获取到的消息数要+1
 
 # 发送消息

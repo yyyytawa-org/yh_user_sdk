@@ -67,7 +67,7 @@ class msg:
         request = msg_pb2.list_message_by_seq_send()
         request.chat_id = chat_id
         request.chat_type = int(chat_type)
-        request.msg_start = msg_start
+        request.msg_seq = msg_start
         payload = request.SerializeToString()
         response = request_api("list-message-by-seq", headers ,data = payload)
         msg = msg_pb2.list_message_by_seq()
@@ -75,13 +75,14 @@ class msg:
         msg = json_format.MessageToDict(msg)
         return msg
     
-    def list_msg_by_mid_seq(self, chat_id: str, chat_type, msg_id = "", msg_count = 1):
+    def list_msg_by_mid_seq(self, chat_id: str, chat_type, msg_id = "", msg_count = 1, msg_seq = -1):
         chat_type = mapping_chat_type(chat_type)
         headers = {"token": self.token}
         request = msg_pb2.list_message_by_mid_seq_send()
         request.chat_id = chat_id
         request.chat_type = int(chat_type)
         request.msg_id = msg_id
+        request.msg_seq = int(msg_seq)
         request.msg_count = msg_count
         payload = request.SerializeToString()
         response = request_api("list-message-by-mid-seq", headers, data = payload)
