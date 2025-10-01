@@ -1,3 +1,7 @@
+### 0.1.13
+新增 msg 的引用图片 url,引用视频 url,提示信息.  
+WS 加入 stream_message 支持.  
+
 ### 0.1.12
 tool 新增 get_msg  
 

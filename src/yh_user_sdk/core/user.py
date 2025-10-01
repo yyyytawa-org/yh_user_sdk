@@ -84,7 +84,8 @@ class user:
         status = json_format.MessageToDict(status)
         return status
     
-    def email_login(self, email: str, passwd: str, deviceId = uuid.uuid4().hex, platform = "windows"):
+    @staticmethod
+    def email_login(email: str, passwd: str, deviceId = uuid.uuid4().hex, platform = "windows"):
         payload = {
             "email": email,
             "password": passwd,
